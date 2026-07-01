@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::title}, ~{::content}, ~{::head-extra}, ~{::scripts})}">
+<head>
+    <title>회원가입</title>
+    <th:block th:fragment="head-extra"></th:block>
+</head>
+<body>
+<th:block th:fragment="content">
+
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4 text-center">회원가입</h5>
+
+                    <form th:action="@{/member/join}" method="post">
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold">이메일</label>
+                            <input type="email" id="email" name="email"
+                                   class="form-control" placeholder="이메일을 입력하세요" required autofocus>
+                            <div class="form-text">로그인 시 사용할 이메일 주소입니다.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="nickname" class="form-label fw-semibold">닉네임</label>
+                            <input type="text" id="nickname" name="nickname"
+                                   class="form-control" placeholder="닉네임을 입력하세요" maxlength="50" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-semibold">비밀번호</label>
+                            <input type="password" id="password" name="password"
+                                   class="form-control" placeholder="8자 이상, 특수문자 포함" required>
+                            <div class="form-text">8자 이상, 영문·숫자·특수문자를 포함해주세요.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="passwordConfirm" class="form-label fw-semibold">비밀번호 확인</label>
+                            <input type="password" id="passwordConfirm" name="passwordConfirm"
+                                   class="form-control" placeholder="비밀번호를 다시 입력하세요" required>
+                            <div id="pwMatchMsg" class="form-text"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-person-plus me-1"></i>가입하기
+                        </button>
+                    </form>
+
+                    <hr class="my-3">
+
+                    <p class="text-center text-muted mb-0" style="font-size:0.875rem;">
+                        이미 계정이 있으신가요?
+                        <a th:href="@{/member/login}" class="text-decoration-none">로그인</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+<th:block th:fragment="scripts">
+<script>
+    // 비밀번호 확인 일치 여부 실시간 체크
+    const pw  = document.getElementById('password');
+    const pwc = document.getElementById('passwordConfirm');
+    const msg = document.getElementById('pwMatchMsg');
+
+    pwc.addEventListener('input', () => {
+        if (pwc.value === '') { msg.textContent = ''; return; }
+        if (pw.value === pwc.value) {
+            msg.textContent = '비밀번호가 일치합니다.';
+            msg.className = 'form-text text-success';
+        } else {
+            msg.textContent = '비밀번호가 일치하지 않습니다.';
+            msg.className = 'form-text text-danger';
+        }
+    });
+</script>
+</th:block>
+</body>
+</html>
